@@ -1,1 +1,14 @@
 #참조 라이브러리 목록 및 상세
+json_simple-1.1.jar=Json 기본 라이브러리
+gson-2.8.5.jar=Json 구글 제공 라이브러리
+poi-3.11.jar=Excel관련 라이브러리
+poi-ooxml-3.11.jar=Excel관련 라이브러리
+poi-ooxml-schemas-3.11.jar=Excel관련 라이브러리
+xmlbeans-2.6.0.jar=Excel관련 라이브러리
+opencsv-4.0.jar	=CSV 라이브러리
+commons-beanutils-1.9.3.jar=Bean Util 라이브러리, opencsv가 참조
+commons-lang3-3.8.jar=기타 Util 라이브러리, opencsv가 참조(추후 제공 Util 클래스 확인)
+commons-text-1.1.jar=기타 Util 라이브러리, opencsv가 참조(추후 제공 Util 클래스 확인)
+ojdbc6.jar=Oracle JDBC 드라이버
+core-3.3.0.jar=구글 바코드(QR) 라이브러리
+javase-3.3.0.jar=구글 바코드(QR) 라이브러리
