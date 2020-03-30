@@ -12,7 +12,7 @@ public class StringFomatter {
 	public static void main(String[] args) {
 		
 		int yyyymmdd=20180419;
-		
+		System.out.println(String.format("%04d",100000));
 		for(int d=1;d<=2;d++) {
 			
 			for(int h=0;h<=23;h++) {
