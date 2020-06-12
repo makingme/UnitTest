@@ -6,8 +6,9 @@ public class StringReplace {
 		// TODO Auto-generated constructor stub
 	}
 	public static void main(String[] args) {
-		String num="010-2631-3590";
-		num=num.replaceAll("-", "");
+		String num="2020-06-12 20:41:40";
+		//num=num.replaceAll("-", "");
+		num=num.replaceAll("\\D", "");
 		System.out.println(num);
 	}
 }	

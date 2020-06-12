@@ -7,14 +7,19 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class SimplehttpClientEx {
+public class SimpleReqRslt {
 	private static HttpURLConnection con;
-	//private static String reqURL="https://agency-stg.hermes.kt.com";//STG KT RCS
-	private static String reqURL="http://httpbin.org/post";//mirror 
-	 
+	private static String reqURL="http://222.111.214.31:40001/api/mns/rsp";
+	//private static String reqURL="http://httpbin.org/post";
+	private static String cid="1";
+	private static String accessToken="46fa01ad-926c-4cea-a878-3dd8a93717ff";
+	
 	public static void main(String[] args) {
 		String line=null;
 		StringBuffer lines=new StringBuffer();
@@ -22,35 +27,29 @@ public class SimplehttpClientEx {
 		BufferedReader reader=null;
 		System.setProperty("http.proxyHost", "127.0.0.1");
 		System.setProperty("http.proxyPort", "8888");
+		if(args.length<1) {
+			System.out.println("Input msg key Params!!");
+			System.exit(0);
+		}
+		String msgkey=args[0];
 		try {
-			//URL url = new URL("http://httpbin.org/post");
 			URL url = new URL(reqURL);
-			//http://validate.jsontest.com/
-			//http://echo.jsontest.com/insert-key-here/insert-value-here/key/value
-			//https://postman-echo.com/post
-			//https://jsonplaceholder.typicode.com/posts
-			//https://httpbin.org/post
+
 			con =(HttpURLConnection) url.openConnection();
 			con.setConnectTimeout(5000);
 			con.setReadTimeout(5000);
+			con.setRequestProperty("Authorization", "Bearer "+accessToken);
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Content-Type", "application/json; utf-8");
-			con.setRequestProperty("Accetp", "application/json");
+			con.setRequestProperty("Accept", "*/*");
 			con.setDoOutput(true);
 			con.setDoInput(true);
+			JSONObject reqData=generateDummyJson(msgkey);
 			
-			JSONObject reqToken=new JSONObject();
-			JSONObject jOb=new JSONObject();
-			
-			jOb.put("name", "Upendra");
-			jOb.put("job", "Programmer");
-			
-			reqToken.put("rcsId", "KT_ODINUE");//발급아이디
-			reqToken.put("rcsSecret", "$2a$10$dSh7n0SIvYebR57CgyGomupQX.V.PPGwOodIZBqxzbgQ14iiGZwrK");//발급키
-			reqToken.put("grantType", "clientCredentail");//고정값
-			
-			String jsonInputData = jOb.toString();
-			String reqInputData=reqToken.toString();
+			String reqInputData=reqData.toString();
+			System.out.println("====Request Json Data====");
+			System.out.println(reqInputData);
+			System.out.println("=========================");
 			os =con.getOutputStream();
 			
 			//byte[] payload = jsonInputData.getBytes("utf-8");
@@ -68,7 +67,7 @@ public class SimplehttpClientEx {
 				lines.append(System.lineSeparator());
 			}
 			
-			System.out.println(lines.toString());
+			System.out.println("response["+lines.toString()+"]");
 			
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -93,6 +92,35 @@ public class SimplehttpClientEx {
 				}
 			}
 		}
+	}
+	
+	public static String getNowDateTime() {
+	   	Date today= new Date();
+	    
+	    SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+	    String formattedDate = sdf.format(today);
+	    return formattedDate;
+	}
+	public static JSONObject generateDummyJson(String key) {
+		JSONObject reqData=new JSONObject();
+
+		JSONArray keyList=new JSONArray();
+			
+		String dateTime=getNowDateTime();
 		
+		String msgId=dateTime.replaceAll("\\D", "");
+		System.out.println("msgId="+msgId);
+		
+		reqData.put("service_cd", "99999");//서비스코드 
+		reqData.put("service_key", "aWVSSXwh2z");//서비스 코드 인증키
+		reqData.put("api_ver", "v2");//
+			
+		keyList.add(key);
+		
+		reqData.put("src_keys", keyList);
+		
+		
+		return reqData;
 	}
 }

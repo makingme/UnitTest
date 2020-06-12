@@ -7,14 +7,17 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import org.json.simple.JSONObject;
 
-public class SimplehttpClientEx {
+public class SimpleGetTokenForTok {
 	private static HttpURLConnection con;
-	//private static String reqURL="https://agency-stg.hermes.kt.com";//STG KT RCS
-	private static String reqURL="http://httpbin.org/post";//mirror 
-	 
+	private static String reqURL="http://13.209.176.120/v1/oauth/token"; 
+	//private static String reqURL="http://httpbin.org/post";
+	private static String grant_type="password";
+	private static String username="api-test@kakaocorp.com";
+	private static String password="APITEST0000";
 	public static void main(String[] args) {
 		String line=null;
 		StringBuffer lines=new StringBuffer();
@@ -23,34 +26,22 @@ public class SimplehttpClientEx {
 		System.setProperty("http.proxyHost", "127.0.0.1");
 		System.setProperty("http.proxyPort", "8888");
 		try {
-			//URL url = new URL("http://httpbin.org/post");
 			URL url = new URL(reqURL);
-			//http://validate.jsontest.com/
-			//http://echo.jsontest.com/insert-key-here/insert-value-here/key/value
-			//https://postman-echo.com/post
-			//https://jsonplaceholder.typicode.com/posts
-			//https://httpbin.org/post
+
 			con =(HttpURLConnection) url.openConnection();
 			con.setConnectTimeout(5000);
 			con.setReadTimeout(5000);
 			con.setRequestMethod("POST");
-			con.setRequestProperty("Content-Type", "application/json; utf-8");
-			con.setRequestProperty("Accetp", "application/json");
+			con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; utf-8");
+			con.setRequestProperty("Accept", "application/json, text/plain, */*");
+			con.setRequestProperty("Authorization", "Basic ClientId ClientSecret");
 			con.setDoOutput(true);
 			con.setDoInput(true);
 			
-			JSONObject reqToken=new JSONObject();
-			JSONObject jOb=new JSONObject();
 			
-			jOb.put("name", "Upendra");
-			jOb.put("job", "Programmer");
-			
-			reqToken.put("rcsId", "KT_ODINUE");//발급아이디
-			reqToken.put("rcsSecret", "$2a$10$dSh7n0SIvYebR57CgyGomupQX.V.PPGwOodIZBqxzbgQ14iiGZwrK");//발급키
-			reqToken.put("grantType", "clientCredentail");//고정값
-			
-			String jsonInputData = jOb.toString();
-			String reqInputData=reqToken.toString();
+			String reqInputData="grant_type="+URLEncoder.encode(grant_type)+"&username="+URLEncoder.encode(username)+"&password="+URLEncoder.encode(password);
+			//String reqInputData="grant_type="+grant_type+"&username="+username+"&password="+password;
+			System.out.println("Form Data="+reqInputData);
 			os =con.getOutputStream();
 			
 			//byte[] payload = jsonInputData.getBytes("utf-8");
@@ -93,6 +84,5 @@ public class SimplehttpClientEx {
 				}
 			}
 		}
-		
 	}
 }
