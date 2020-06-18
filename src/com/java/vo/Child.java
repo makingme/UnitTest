@@ -4,6 +4,7 @@ public class Child extends Parents {
 
 	String address;
 	String phn;
+	static String name;
 	
 	public String getAddress() {
 		return address;

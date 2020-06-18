@@ -11,12 +11,13 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class SimpleSendRCS {
 	private static HttpURLConnection con;
-	private static String reqURL="https://agency-stg.hermes.kt.com/corp/v1.1/message";
-	//private static String reqURL="http://httpbin.org/post";
+	//private static String reqURL="https://agency-stg.hermes.kt.com/corp/v1.1/message";
+	private static String reqURL="http://httpbin.org/post";
 	private static String cid="1";
 	
 	public static String getNowDateTime() {
@@ -33,6 +34,7 @@ public class SimpleSendRCS {
 		JSONObject commonData=new JSONObject();
 		JSONObject rcsData=new JSONObject();
 		JSONObject bodyData=new JSONObject();
+		JSONArray bntList=new JSONArray();
 		
 		String dateTime=getNowDateTime();
 		
@@ -59,7 +61,7 @@ public class SimpleSendRCS {
 		bodyData.put("description", "["+dateTime+"], 일반 RCSSMS 테스트");
 		
 		rcsData.put("body", bodyData);
-		rcsData.put("buttons", "");
+		rcsData.put("buttons", bntList);
 		
 		reqData.put("common", commonData);
 		reqData.put("rcs", rcsData);
@@ -101,6 +103,7 @@ public class SimpleSendRCS {
 			
 			//byte[] payload = jsonInputData.getBytes("utf-8");
 			byte[] payload = reqInputData.getBytes("utf-8");
+			System.out.println("payload size:"+payload.length);
 			os.write(payload,0,payload.length);
 			
 			int code=con.getResponseCode();

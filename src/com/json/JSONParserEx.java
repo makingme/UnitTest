@@ -11,14 +11,15 @@ public class JSONParserEx {
 	}
 	
 	public static void main(String[] args) {
-		String jstring="{\"등급\":\"VIP\", \"고객명\":\"홍길동\"}";
+		//String jstring="{\"�벑湲�\":\"VIP\", \"怨좉컼紐�\":\"�솉湲몃룞\"}";
+		String jstring="";
 		System.out.println(jstring);
 		JSONParser parser= new JSONParser();
 
 		try {
 			JSONObject json=(JSONObject) parser.parse(jstring);
 
-			System.out.println(json.toString());
+			System.out.println("rslt="+json.toString());
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

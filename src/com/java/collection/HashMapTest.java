@@ -14,5 +14,10 @@ public class HashMapTest {
 		vMap.put("1", 1);
 		int a=vMap.get("1");
 		System.out.println(a);
+		
+		Map<String,String> tMap= new HashMap<String,String>(30);
+		tMap.put("f", "1");
+		tMap.put("s", "2");
+		
 	}
 }

@@ -13,7 +13,7 @@ import java.util.Date;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class SimpleReqRslt {
+public class SimpleReqRsltForPost {
 	private static HttpURLConnection con;
 	private static String reqURL="http://222.111.214.31:40001/api/mns/rsp";
 	//private static String reqURL="http://httpbin.org/post";

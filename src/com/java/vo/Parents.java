@@ -18,5 +18,7 @@ public class Parents {
 		this.age = age;
 	}
 	
-
+	public void printName() {
+		System.out.println(name);
+	}
 }

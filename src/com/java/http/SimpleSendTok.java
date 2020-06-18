@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class SimpleSendTok {
@@ -43,13 +44,14 @@ public class SimpleSendTok {
 	}
 	public static JSONObject generateDummyJson() {
 		JSONObject reqData=new JSONObject();
+		JSONArray bntList=new JSONArray();
 		String dateTime=getNowDateTime();
 		reqData.put("message_type", "AT");
 		reqData.put("sender_key", "81ef72d77c4c6c66962b79239f02a58a1202f924");
 		reqData.put("phone_number", "01026313590");
 		reqData.put("user_key", "");
 		reqData.put("template_code", "test_kep_template_001");
-		reqData.put("message", "["+dateTime+"], message");//1000 byte
+		reqData.put("message", "[카엔] 회원가입 안내\r\n김기범님, 카엔 회원이 되신 것을 환영합니다.\r\n\r\n▶신규 가입 회원 혜택\r\n1개월 무료 스트리밍 서비스 제공\r\n카카오톡 이모티콘 증정");//1000 byte
 		reqData.put("sms_message", "");//2000 byte
 		reqData.put("title", dateTime);
 		reqData.put("ad_flag", "Y");
@@ -67,8 +69,8 @@ public class SimpleSendTok {
 		System.out.println("CID="+dateTime.replaceAll("\\D", ""));
 		reqData.put("tax_cd2", "");
 		reqData.put("reservation_date", "");
-		reqData.put("button", "");
-		reqData.put("image", "");
+		reqData.put("button", bntList);
+		//reqData.put("image", "");
 		reqData.put("content_group_id", "");
 		
 		return reqData;
@@ -94,7 +96,7 @@ public class SimpleSendTok {
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Content-Type", "application/json; utf-8");
 			con.setRequestProperty("Accept", "*/*");
-			con.setRequestProperty("Authorization", accessToken);
+			con.setRequestProperty("Authorization","Bearer "+accessToken);
 			con.setDoOutput(true);
 			con.setDoInput(true);
 			JSONObject reqData=generateDummyJson();

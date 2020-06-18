@@ -9,15 +9,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.json.simple.JSONObject;
 
 public class SimpleGetTokenForTok {
 	private static HttpURLConnection con;
-	private static String reqURL="http://13.209.176.120/v1/oauth/token"; 
-	//private static String reqURL="http://httpbin.org/post";
+	//private static String reqURL="http://13.209.176.120/v1/oauth/token"; 
+	private static String reqURL="http://httpbin.org/post";
 	private static String grant_type="password";
 	private static String username="api-test@kakaocorp.com";
 	private static String password="APITEST0000";
+	private static String Authorization="APITEST0000 APITEST0000";
+
 	public static void main(String[] args) {
 		String line=null;
 		StringBuffer lines=new StringBuffer();
@@ -27,14 +31,14 @@ public class SimpleGetTokenForTok {
 		System.setProperty("http.proxyPort", "8888");
 		try {
 			URL url = new URL(reqURL);
-
+				
 			con =(HttpURLConnection) url.openConnection();
 			con.setConnectTimeout(5000);
 			con.setReadTimeout(5000);
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; utf-8");
 			con.setRequestProperty("Accept", "application/json, text/plain, */*");
-			con.setRequestProperty("Authorization", "Basic ClientId ClientSecret");
+			con.setRequestProperty("Authorization", "Basic "+Authorization);
 			con.setDoOutput(true);
 			con.setDoInput(true);
 			
@@ -47,8 +51,10 @@ public class SimpleGetTokenForTok {
 			//byte[] payload = jsonInputData.getBytes("utf-8");
 			byte[] payload = reqInputData.getBytes("utf-8");
 			os.write(payload,0,payload.length);
-			
-			int code=con.getResponseCode();
+			//os.close();
+			reader= new BufferedReader(new InputStreamReader(con.getInputStream(),"utf-8"));
+		//	int code=con.getResponseCode();
+		/*	int code=con.getResponseCode();
 			
 			System.out.println("code: "+code);
 			
@@ -59,13 +65,13 @@ public class SimpleGetTokenForTok {
 				lines.append(System.lineSeparator());
 			}
 			
-			System.out.println(lines.toString());
+			System.out.println(lines.toString());*/
 			
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
+		} /*finally {
 			if(os !=null) {
 				try {
 					os.close();
@@ -83,6 +89,6 @@ public class SimpleGetTokenForTok {
 					e.printStackTrace();
 				}
 			}
-		}
+		}*/
 	}
 }

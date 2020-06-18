@@ -18,7 +18,7 @@ public class SimpleSendPost {
 	private static String reqURL="http://222.111.214.31:40001/api/mns/req";
 	//private static String reqURL="http://httpbin.org/post";
 	private static String cid="1";
-	private static String accessToken="46fa01ad-926c-4cea-a878-3dd8a93717ff";
+	private static String accessToken="aa413f01-d523-4c99-9198-5220a881947f";
 	
 	public static void main(String[] args) {
 		String line=null;
@@ -111,12 +111,12 @@ public class SimpleSendPost {
 		String msgId=dateTime.replaceAll("\\D", "");
 		System.out.println("msgId="+msgId);
 		
-		reqData.put("service_cd", "99999");//서비스코드 
-		reqData.put("service_key", "aWVSSXwh2z");//서비스 코드 인증키
+		reqData.put("service_cd", "APTST");//서비스코드 
+		reqData.put("service_key", "ybik2D53JR");//서비스 코드 인증키
 		reqData.put("req_type", "1");//발송요청구분, 1:즉시, 2:배치비승인, 3:배승 승인
 		
 		// common Data Setting
-		headerData.put("biz_cd", "99999");//기관코드
+		headerData.put("biz_cd", "APTST");//기관코드
 		headerData.put("msg_cd", "00000");//문서코드
 		headerData.put("make_dt", msgId);//생성일시 14자리
 		headerData.put("send_seq", "0000");//발송회차, 0000 즉발
