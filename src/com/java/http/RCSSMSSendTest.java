@@ -79,7 +79,7 @@ public class RCSSMSSendTest extends SimpleHttpRequest{
 			
 			System.out.println("AccessToken:"+accessToken);
 			
-			//단건 메시지 전송
+			//단건 SMS메시지 전송
 			sender.url =new URL(sender.reqSndURL);
 			String payload= (rcvNum==null)?sender.generateDummyJson().toString():sender.generateDummyJson(rcvNum).toString();
 			
@@ -110,8 +110,9 @@ public class RCSSMSSendTest extends SimpleHttpRequest{
 		JSONObject _rcsData=new JSONObject();
 		JSONObject _bodyData=new JSONObject();
 		JSONArray _bntList=new JSONArray();
-		JSONObject _sugJson=new JSONObject();
-		JSONArray _sugList=new JSONArray();
+		JSONObject _bnt=new JSONObject();
+		JSONObject _suggesJson=new JSONObject();
+		JSONArray _suggesList=new JSONArray();
 		JSONObject _actionJson=new JSONObject();
 		JSONObject _urlActJson=new JSONObject();
 		JSONObject _openUrlJson=new JSONObject();
@@ -142,15 +143,16 @@ public class RCSSMSSendTest extends SimpleHttpRequest{
 		_rcsData.put("body", _bodyData);
 		
 		//bnt Data Setting
-		_openUrlJson.put("url", "https://www.naver.com");
+/*		_openUrlJson.put("url", "https://www.naver.com");
 		_postJson.put("data", "set_by_chatbot_open_url");
 		_urlActJson.put("openUrl", _openUrlJson);
 		_actionJson.put("urlAction", _urlActJson);
-		_actionJson.put("displayText", "페이지열기버튼");
+		_actionJson.put("displayText", "네이버열기버튼");
 		_actionJson.put("postback", _postJson);
-		_sugList.add(_actionJson);
-		_sugJson.put("suggestions", _sugList);
-		_bntList.add(_sugJson);
+		_suggesJson.put("action", _actionJson);
+		_suggesList.add(_suggesJson);
+		_bnt.put("suggestions", _suggesList);
+		_bntList.add(_bnt);*/
 		_rcsData.put("buttons", _bntList);
 		
 		_reqJsonData.put("common", _commonData);

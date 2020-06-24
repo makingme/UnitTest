@@ -26,8 +26,9 @@ public class SimpleJsonArrayEx2 {
 		JSONObject reqJson=new JSONObject();
 		
 		JSONArray _bntList=new JSONArray();
-		JSONObject _sugJson=new JSONObject();
-		JSONArray _sugList=new JSONArray();
+		JSONObject _bnt=new JSONObject();
+		JSONObject _suggesJson=new JSONObject();
+		JSONArray _suggesList=new JSONArray();
 		JSONObject _actionJson=new JSONObject();
 		JSONObject _urlActJson=new JSONObject();
 		JSONObject _openUrlJson=new JSONObject();
@@ -37,11 +38,32 @@ public class SimpleJsonArrayEx2 {
 		_postJson.put("data", "set_by_chatbot_open_url");
 		_urlActJson.put("openUrl", _openUrlJson);
 		_actionJson.put("urlAction", _urlActJson);
-		_actionJson.put("displayText", "페이지열기버튼");
+		_actionJson.put("displayText", "네이버열기버튼");
 		_actionJson.put("postback", _postJson);
-		_sugList.add(_actionJson);
-		_sugJson.put("suggestions", _sugList);
-		_bntList.add(_sugJson);
+		_suggesJson.put("action", _actionJson);
+		_suggesList.add(_suggesJson);
+		
+		_openUrlJson.put("url", "https://www.kt.com");
+		_postJson.put("data", "set_by_chatbot_open_url");
+		_urlActJson.put("openUrl", _openUrlJson);
+		_actionJson.put("urlAction", _urlActJson);
+		_actionJson.put("displayText", "KT열기버튼");
+		_actionJson.put("postback", _postJson);
+		_suggesJson.put("action", _actionJson);
+		_suggesList.add(_suggesJson);
+		
+		_openUrlJson.put("url", "https://www.daum.net");
+		_postJson.put("data", "set_by_chatbot_open_url");
+		_urlActJson.put("openUrl", _openUrlJson);
+		_actionJson.put("urlAction", _urlActJson);
+		_actionJson.put("displayText", "다음열기버튼");
+		_actionJson.put("postback", _postJson);
+		_suggesJson.put("action", _actionJson);
+		_suggesList.add(_suggesJson);
+		
+		
+		_bnt.put("suggestions", _suggesList);
+		_bntList.add(_bnt);
 		
 		reqJson.put("buttons", _bntList);
 		System.out.println(reqJson.toString());
