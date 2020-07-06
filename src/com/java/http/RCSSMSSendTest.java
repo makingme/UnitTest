@@ -48,12 +48,13 @@ public class RCSSMSSendTest extends SimpleHttpRequest{
 		String rcvNum=null;
 		if(args.length>0) {
 			rcvNum=args[0];
-			isValid=sender.checkReceivers(rcvNum);
+			isValid=sender.checkReceivers(rcvNum, phones);
 			
 		}
 		
 		if(!isValid) {
 			System.out.println("미등록 전화번호입력으로 인한 종료\n 등록현황[01098468940, 01083118940, 01090488940, 01026313590]");
+			System.exit(0);
 		}
 		
 		try {
@@ -123,7 +124,7 @@ public class RCSSMSSendTest extends SimpleHttpRequest{
 		// common Data Setting
 		String msgId=dateTime.replaceAll("\\D", "");
 		_commonData.put("msgId", msgId);
-		_commonData.put("userContact", "01098468940");//KT:01098468940 LG:01083118940 SKT:01090488940
+		_commonData.put("userContact", "01083118940");//KT:01098468940 LG:01083118940 SKT:01090488940
 		_commonData.put("scheduleType", "0");
 		_commonData.put("msgGroupId", msgId);
 		_commonData.put("msgServiceType", "rcs");
@@ -143,7 +144,7 @@ public class RCSSMSSendTest extends SimpleHttpRequest{
 		_rcsData.put("body", _bodyData);
 		
 		//bnt Data Setting
-/*		_openUrlJson.put("url", "https://www.naver.com");
+		_openUrlJson.put("url", "https://www.naver.com");
 		_postJson.put("data", "set_by_chatbot_open_url");
 		_urlActJson.put("openUrl", _openUrlJson);
 		_actionJson.put("urlAction", _urlActJson);
@@ -152,7 +153,7 @@ public class RCSSMSSendTest extends SimpleHttpRequest{
 		_suggesJson.put("action", _actionJson);
 		_suggesList.add(_suggesJson);
 		_bnt.put("suggestions", _suggesList);
-		_bntList.add(_bnt);*/
+		_bntList.add(_bnt);
 		_rcsData.put("buttons", _bntList);
 		
 		_reqJsonData.put("common", _commonData);

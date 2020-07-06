@@ -45,12 +45,13 @@ public class RCSDefaultTmplSendTest extends SimpleHttpRequest {
 		String rcvNum=null;
 		if(args.length>0) {
 			rcvNum=args[0];
-			isValid=sender.checkReceivers(rcvNum);
+			isValid=sender.checkReceivers(rcvNum, phones);
 			
 		}
 		
 		if(!isValid) {
 			System.out.println("미등록 전화번호입력으로 인한 종료\n 등록현황[01098468940, 01083118940, 01090488940, 01026313590]");
+			System.exit(0);
 		}
 		
 		try {

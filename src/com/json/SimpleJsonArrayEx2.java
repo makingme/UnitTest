@@ -5,6 +5,8 @@ package com.json;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
 
@@ -22,7 +24,7 @@ import org.json.simple.JSONObject;
 
   */
 public class SimpleJsonArrayEx2 {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		JSONObject reqJson=new JSONObject();
 		
 		JSONArray _bntList=new JSONArray();
@@ -34,6 +36,7 @@ public class SimpleJsonArrayEx2 {
 		JSONObject _openUrlJson=new JSONObject();
 		JSONObject _postJson=new JSONObject();
 		
+		
 		_openUrlJson.put("url", "https://www.naver.com");
 		_postJson.put("data", "set_by_chatbot_open_url");
 		_urlActJson.put("openUrl", _openUrlJson);
@@ -41,7 +44,8 @@ public class SimpleJsonArrayEx2 {
 		_actionJson.put("displayText", "네이버열기버튼");
 		_actionJson.put("postback", _postJson);
 		_suggesJson.put("action", _actionJson);
-		_suggesList.add(_suggesJson);
+		
+		_suggesList.add(_suggesJson.toString());
 		
 		_openUrlJson.put("url", "https://www.kt.com");
 		_postJson.put("data", "set_by_chatbot_open_url");
@@ -50,7 +54,8 @@ public class SimpleJsonArrayEx2 {
 		_actionJson.put("displayText", "KT열기버튼");
 		_actionJson.put("postback", _postJson);
 		_suggesJson.put("action", _actionJson);
-		_suggesList.add(_suggesJson);
+		
+		_suggesList.add(_suggesJson.toString());
 		
 		_openUrlJson.put("url", "https://www.daum.net");
 		_postJson.put("data", "set_by_chatbot_open_url");
@@ -59,8 +64,7 @@ public class SimpleJsonArrayEx2 {
 		_actionJson.put("displayText", "다음열기버튼");
 		_actionJson.put("postback", _postJson);
 		_suggesJson.put("action", _actionJson);
-		_suggesList.add(_suggesJson);
-		
+		_suggesList.add(_suggesJson.toString());
 		
 		_bnt.put("suggestions", _suggesList);
 		_bntList.add(_bnt);

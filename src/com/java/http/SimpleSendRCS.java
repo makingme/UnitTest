@@ -16,8 +16,8 @@ import org.json.simple.JSONObject;
 
 public class SimpleSendRCS {
 	private static HttpURLConnection con;
-	//private static String reqURL="https://agency-stg.hermes.kt.com/corp/v1.1/message";
-	private static String reqURL="http://httpbin.org/post";
+	private static String reqURL="https://agency-stg.hermes.kt.com/corp/v1.1/message";
+	//private static String reqURL="http://httpbin.org/post";
 	private static String cid="1";
 	
 	public static String getNowDateTime() {
@@ -42,7 +42,7 @@ public class SimpleSendRCS {
 		String msgId=dateTime.replaceAll("\\D", "");
 		System.out.println("msgId="+msgId);
 		commonData.put("msgId", msgId);
-		commonData.put("userContact", "01026313590");
+		commonData.put("userContact", "01098468940");
 		commonData.put("scheduleType", "0");
 		commonData.put("msgGroupId", msgId);
 		commonData.put("msgServiceType", "rcs");
@@ -50,7 +50,7 @@ public class SimpleSendRCS {
 		//rcs Data Setting
 		rcsData.put("chatbotId", "15776825");
 		rcsData.put("agencyId", "ktrcsdev");//ktrcsdev, ktbizrcs
-		rcsData.put("messagebaseId", "UBR.D93Lnzo1wL-GG000F");
+		rcsData.put("messagebaseId", "SS000000");
 		rcsData.put("serviceType", "RCSSMS");
 		rcsData.put("expiryOption", 1);
 		rcsData.put("header", "0");

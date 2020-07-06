@@ -46,12 +46,13 @@ public class RCSLMSSendTest extends SimpleHttpRequest{
 		String rcvNum=null;
 		if(args.length>0) {
 			rcvNum=args[0];
-			isValid=sender.checkReceivers(rcvNum);
+			isValid=sender.checkReceivers(rcvNum, phones);
 			
 		}
 		
 		if(!isValid) {
 			System.out.println("미등록 전화번호입력으로 인한 종료\n 등록현황[01098468940, 01083118940, 01090488940, 01026313590]");
+			System.exit(0);
 		}
 		
 		try {
@@ -102,7 +103,7 @@ public class RCSLMSSendTest extends SimpleHttpRequest{
 	 * @see com.java.http.SimpleHttpRequest#generateDummyJson()
 	 */
 	@Override
-	public JSONObject generateDummyJson() {
+	public JSONObject generateDummyJson() throws ParseException {
 		JSONObject _reqJsonData=new JSONObject();
 		JSONObject _commonData=new JSONObject();
 		JSONObject _rcsData=new JSONObject();
@@ -149,7 +150,9 @@ public class RCSLMSSendTest extends SimpleHttpRequest{
 		_actionJson.put("displayText", "네이버열기버튼");
 		_actionJson.put("postback", _postJson);
 		_suggesJson.put("action", _actionJson);
-		_suggesList.add(_suggesJson);
+		JSONObject a1=(JSONObject)new JSONParser().parse(_suggesJson.toString());
+		_suggesJson.clear();
+		_suggesList.add(a1);
 		
 		_openUrlJson.put("url", "https://www.kt.com");
 		_postJson.put("data", "set_by_chatbot_open_url");
@@ -158,7 +161,9 @@ public class RCSLMSSendTest extends SimpleHttpRequest{
 		_actionJson.put("displayText", "KT열기버튼");
 		_actionJson.put("postback", _postJson);
 		_suggesJson.put("action", _actionJson);
-		_suggesList.add(_suggesJson);
+		JSONObject a2=(JSONObject)new JSONParser().parse(_suggesJson.toString());
+		_suggesJson.clear();
+		_suggesList.add(a2);
 		
 		_openUrlJson.put("url", "https://www.daum.net");
 		_postJson.put("data", "set_by_chatbot_open_url");
@@ -182,7 +187,7 @@ public class RCSLMSSendTest extends SimpleHttpRequest{
 	 * @see com.java.http.SimpleHttpRequest#generateDummyJson(java.lang.String)
 	 */
 	@Override
-	public JSONObject generateDummyJson(String v1) {
+	public JSONObject generateDummyJson(String v1) throws ParseException {
 		JSONObject _reqJsonData=this.generateDummyJson();
 		JSONObject _commonData=(JSONObject)_reqJsonData.get("common");
 		_commonData.put("userContact", v1);	
