@@ -106,6 +106,7 @@ public class TalkSendTest extends SimpleHttpRequest {
 	@Override
 	public JSONObject generateDummyJson() {
 		JSONObject _reqJsonData=new JSONObject();
+		JSONObject _image=new JSONObject();
 		JSONArray _bntList=new JSONArray();
 		String dateTime=getNowDateTime();
 		_reqJsonData.put("message_type", "AT");
@@ -131,7 +132,7 @@ public class TalkSendTest extends SimpleHttpRequest {
 		_reqJsonData.put("tax_cd2", "");
 		_reqJsonData.put("reservation_date", "");
 		_reqJsonData.put("button", _bntList);
-		//reqData.put("image", "");
+		/*_reqJsonData.put("image", _image);*/
 		_reqJsonData.put("content_group_id", "");
 		
 		return _reqJsonData;

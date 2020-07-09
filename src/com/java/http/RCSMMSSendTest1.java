@@ -29,7 +29,7 @@ import org.json.simple.parser.ParseException;
   * @프로그램 설명 :
 
   */
-public class RCSMMSSendTest extends SimpleHttpRequest{
+public class RCSMMSSendTest1 extends SimpleHttpRequest{
 
 	private String reqTokenURL="https://agency-stg.hermes.kt.com/corp/v1/token";
 	private String reqSndURL="https://agency-stg.hermes.kt.com/corp/v1/message";
@@ -41,7 +41,7 @@ public class RCSMMSSendTest extends SimpleHttpRequest{
 	private URL url =null;
 	
 	public static void main(String[] args) {
-		RCSMMSSendTest sender=new RCSMMSSendTest();
+		RCSMMSSendTest1 sender=new RCSMMSSendTest1();
 		boolean isValid =true;
 		String rcvNum=null;
 		if(args.length>0) {
@@ -138,9 +138,9 @@ public class RCSMMSSendTest extends SimpleHttpRequest{
 		_rcsData.put("copyAllowed", false);
 		
 		//Body Data Setting
-		_bodyData.put("title1", "-RCSMMS 1th-");
-		_bodyData.put("description1", "["+dateTime+"], 1th SMwThT00  테스트");
-		_bodyData.put("media1", "maapfile://BR.D93Lnzo1wL.2020-07-06T16:18:07.377");
+		_bodyData.put("title", "-RCSMMS 1th-");
+		_bodyData.put("description", "["+dateTime+"], 1th SMwThT00  테스트");
+		_bodyData.put("media", "maapfile://BR.D93Lnzo1wL.2020-07-06T16:18:07.377");
 /*		_bodyData.put("title2", "-RCSMMS 2th-");
 		_bodyData.put("description2", "["+dateTime+"], 2th CMwMhM0300  테스트");
 		_bodyData.put("media2", "maapfile://BR.D93Lnzo1wL.2020-07-06T16:18:49.552");

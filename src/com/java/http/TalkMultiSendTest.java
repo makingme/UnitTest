@@ -107,7 +107,10 @@ public class TalkMultiSendTest extends SimpleHttpRequest{
 	public JSONObject generateDummyJson() {
 		JSONObject _reqJsonData=new JSONObject();
 		JSONObject _msg=new JSONObject();
+		JSONObject _msg2=new JSONObject();
 		JSONObject _target=new JSONObject();
+		JSONObject _target2=new JSONObject();
+		JSONObject _target3=new JSONObject();
 		
 		JSONArray _bntList=new JSONArray();
 		JSONArray _msgList=new JSONArray();
@@ -117,7 +120,7 @@ public class TalkMultiSendTest extends SimpleHttpRequest{
 		_reqJsonData.put("message_type", "AT");
 		_reqJsonData.put("sender_key", "81ef72d77c4c6c66962b79239f02a58a1202f924");
 		_reqJsonData.put("template_code", "test_kep_template_001");
-		_reqJsonData.put("reservation_date", "test_kep_template_001");
+		_reqJsonData.put("reservation_date", "");
 		
 		_msg.put("phone_number", "01026313590");
 		_msg.put("user_key", "");
@@ -127,7 +130,7 @@ public class TalkMultiSendTest extends SimpleHttpRequest{
 		_msg.put("title", dateTime);
 		_msg.put("ad_flag", "Y");
 		_msg.put("wide", "N");
-		_msg.put("sms_type", "SM");
+		_msg.put("sms_type", "LM");
 		_msg.put("sender_no", "15776825");
 		_msg.put("etc1", "어다인");
 		_msg.put("etc2", "1개월 무료");
@@ -139,10 +142,36 @@ public class TalkMultiSendTest extends SimpleHttpRequest{
 		_msg.put("tax_cd1", "");
 		_msg.put("tax_cd2", "");
 		_msg.put("button", _bntList);
-		_msg.put("image", "");
+		
+		_msg2.put("phone_number", "01083118940");
+		_msg2.put("user_key", "");
+		_msg2.put("template_code", "test_kep_template_001");
+		_msg2.put("message", "[카엔] 회원가입 안내\r\n어다인님, 카엔 회원이 되신 것을 환영합니다.\r\n\r\n▶신규 가입 회원 혜택\r\n1개월 무료 스트리밍 서비스 제공\r\n카카오톡 이모티콘 증정");//1000 byte
+		_msg2.put("sms_message", "");//2000 byte
+		_msg2.put("title", dateTime);
+		_msg2.put("ad_flag", "Y");
+		_msg2.put("wide", "N");
+		_msg2.put("sms_type", "LM");
+		_msg2.put("sender_no", "15776825");
+		_msg2.put("etc1", "어다인");
+		_msg2.put("etc2", "1개월 무료");
+		_msg2.put("etc3", "이모티콘 할인권 증정");
+		for(int i=4;i<=10;i++) {
+			_msg2.put("etc"+i, "");
+			_target2.put("etc"+i, "");
+		}
+		_msg2.put("tax_cd1", "");
+		_msg2.put("tax_cd2", "");
+		_msg2.put("button", _bntList);
+		
+		_msg2.put("cid", dateTime.replaceAll("\\D", ""));
+		_msg2.put("content_group_id", "");
+		
+		/*_msg.put("image", "");*/
 		_msg.put("cid", dateTime.replaceAll("\\D", ""));
 		_msg.put("content_group_id", "");
 		_msgList.add(_msg);
+		_msgList.add(_msg2);
 		
 		_target.put("phone_number", "01026313590");
 		_target.put("sender_no", "15776825");
@@ -152,10 +181,21 @@ public class TalkMultiSendTest extends SimpleHttpRequest{
 		_target.put("tax_cd1", "");
 		_target.put("tax_cd2", "");
 		_target.put("cid", dateTime.replaceAll("\\D", ""));
-		_targetList.add(_target);
+		
+		_target2.put("phone_number", "01026313590");
+		_target2.put("sender_no", "15776825");
+		_target2.put("etc1", "어다인");
+		_target2.put("etc2", "1개월 무료");
+		_target2.put("etc3", "이모티콘 할인권 증정");
+		_target2.put("tax_cd1", "");
+		_target2.put("tax_cd2", "");
+		_target2.put("cid", dateTime.replaceAll("\\D", ""));
+		
+/*		_targetList.add(_target);
+		_targetList.add(_target2);*/
 		
 		_reqJsonData.put("send_messages", _msgList);
-		_reqJsonData.put("targets", _targetList);
+	/*	_reqJsonData.put("targets", _targetList);*/
 		return _reqJsonData;
 	}
 	/* (non-Javadoc)

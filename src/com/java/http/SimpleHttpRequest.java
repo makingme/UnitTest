@@ -14,6 +14,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -354,13 +355,44 @@ public abstract class SimpleHttpRequest {
 	  */
 	public static String getNowDateTime(String format) {
 	   	Date today= new Date();
-	    
-	    SimpleDateFormat sdf= new SimpleDateFormat(format);
+	    SimpleDateFormat sdf= new SimpleDateFormat(format);  
 
 	    String formattedDate = sdf.format(today);
 	    return formattedDate;
 	}	
 	
+	public static String getNowDateTime(String format,int fieldId, int amount) {
+	   	Date today= new Date();
+	    SimpleDateFormat sdf= new SimpleDateFormat(format);
+	    Calendar c=Calendar.getInstance();
+	    c.setTime(today);
+	    
+	    switch (fieldId) {
+		case Calendar.YEAR:
+			c.add(fieldId, amount);
+			break;
+		case Calendar.MONTH:
+			c.add(fieldId, amount);
+			break;
+		case Calendar.DATE:
+			c.add(fieldId, amount);
+			break;
+		case Calendar.HOUR:
+			c.add(fieldId, amount);
+			break;
+		case Calendar.MINUTE:
+			c.add(fieldId, amount);
+			break;
+		case Calendar.SECOND:
+			c.add(fieldId, amount);
+			break;
+		default:
+			break;
+		}
+	    Date newDate=c.getTime();
+	    String formattedDate = sdf.format(newDate);
+	    return formattedDate;
+	}
 	
 	public boolean checkReceivers(String number, String[] phones) {
 		for (String phone : phones) {

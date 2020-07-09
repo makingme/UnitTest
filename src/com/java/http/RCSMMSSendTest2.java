@@ -16,7 +16,7 @@ import org.json.simple.parser.ParseException;
 
 /**
 
-  * @FileName : RCSCellTmplSendTest.java
+  * @FileName : RCSMMSSendTest.java
 
   * @Project : UnitTest
 
@@ -29,7 +29,8 @@ import org.json.simple.parser.ParseException;
   * @프로그램 설명 :
 
   */
-public class RCSCellTmplSendTest extends SimpleHttpRequest{
+public class RCSMMSSendTest2 extends SimpleHttpRequest{
+
 	private String reqTokenURL="https://agency-stg.hermes.kt.com/corp/v1/token";
 	private String reqSndURL="https://agency-stg.hermes.kt.com/corp/v1/message";
 	
@@ -40,7 +41,7 @@ public class RCSCellTmplSendTest extends SimpleHttpRequest{
 	private URL url =null;
 	
 	public static void main(String[] args) {
-		RCSCellTmplSendTest sender=new RCSCellTmplSendTest();
+		RCSMMSSendTest2 sender=new RCSMMSSendTest2();
 		boolean isValid =true;
 		String rcvNum=null;
 		if(args.length>0) {
@@ -77,7 +78,7 @@ public class RCSCellTmplSendTest extends SimpleHttpRequest{
 			
 			System.out.println("AccessToken:"+accessToken);
 			
-			//단건 SMS메시지 전송
+			//단건 LMS메시지 전송
 			sender.url =new URL(sender.reqSndURL);
 			String payload= (rcvNum==null)?sender.generateDummyJson().toString():sender.generateDummyJson(rcvNum).toString();
 			
@@ -102,11 +103,19 @@ public class RCSCellTmplSendTest extends SimpleHttpRequest{
 	 * @see com.java.http.SimpleHttpRequest#generateDummyJson()
 	 */
 	@Override
-	public JSONObject generateDummyJson() {
+	public JSONObject generateDummyJson() throws ParseException {
 		JSONObject _reqJsonData=new JSONObject();
 		JSONObject _commonData=new JSONObject();
 		JSONObject _rcsData=new JSONObject();
 		JSONObject _bodyData=new JSONObject();
+		JSONArray _bntList=new JSONArray();
+		JSONObject _bnt=new JSONObject();
+		JSONObject _suggesJson=new JSONObject();
+		JSONArray _suggesList=new JSONArray();
+		JSONObject _actionJson=new JSONObject();
+		JSONObject _urlActJson=new JSONObject();
+		JSONObject _openUrlJson=new JSONObject();
+		JSONObject _postJson=new JSONObject();
 		
 		String dateTime=getNowDateTime();
 		
@@ -121,22 +130,53 @@ public class RCSCellTmplSendTest extends SimpleHttpRequest{
 		//rcs Data Setting
 		_rcsData.put("chatbotId", "15776825");
 		_rcsData.put("agencyId", "ktrcsdev");//ktrcsdev, ktbizrcs
-		_rcsData.put("messagebaseId", "UBR.D93Lnzo1wL-6u7s1niPA789akPz8xJbnVAyX");
-		_rcsData.put("serviceType", "RCSTMPL");
+		_rcsData.put("messagebaseId", "CMwMhM0300");
+		_rcsData.put("serviceType", "RCSMMS");
 		_rcsData.put("expiryOption", 1);
 		_rcsData.put("header", "0");
 		_rcsData.put("footer", "");
 		_rcsData.put("copyAllowed", false);
 		
 		//Body Data Setting
-		_bodyData.put("name", "홍길동");
-		_bodyData.put("won", "2000원");
-		_bodyData.put("card", "TEST카드");
-		_bodyData.put("place", "ODINUE");
-		_bodyData.put("date", ""+dateTime);
-		_bodyData.put("total", "5000원");
+		_bodyData.put("title1", "-RCSMMS 1th-");
+		_bodyData.put("description1", "["+dateTime+"], 1th CMwMhM0300  테스트");
+		_bodyData.put("media1", "maapfile://BR.D93Lnzo1wL.2020-07-06T16:18:07.377");
+		_bodyData.put("title2", "-RCSMMS 2th-");
+		_bodyData.put("description2", "["+dateTime+"], 2th CMwMhM0300  테스트");
+		_bodyData.put("media2", "maapfile://BR.D93Lnzo1wL.2020-07-06T16:18:49.552");
+		_bodyData.put("title3", "-RCSMMS 3th-");
+		_bodyData.put("description3", "["+dateTime+"], 3th CMwMhM0300  테스트");
+		_bodyData.put("media3", "maapfile://BR.D93Lnzo1wL.2020-07-06T16:19:19.238");
 		_rcsData.put("body", _bodyData);
 		
+		//bnt Data Setting
+		_openUrlJson.put("url", "https://www.naver.com");
+		_postJson.put("data", "set_by_chatbot_open_url");
+		_urlActJson.put("openUrl", _openUrlJson);
+		_actionJson.put("urlAction", _urlActJson);
+		_actionJson.put("displayText", "네이버열기버튼");
+		_actionJson.put("postback", _postJson);
+		_suggesJson.put("action", _actionJson);
+		JSONObject a1=(JSONObject)new JSONParser().parse(_suggesJson.toString());
+		_suggesJson.clear();
+		_suggesList.add(a1);
+		
+		_openUrlJson.put("url", "https://www.kt.com");
+		_postJson.put("data", "set_by_chatbot_open_url");
+		_urlActJson.put("openUrl", _openUrlJson);
+		_actionJson.put("urlAction", _urlActJson);
+		_actionJson.put("displayText", "KT열기버튼");
+		_actionJson.put("postback", _postJson);
+		_suggesJson.put("action", _actionJson);
+		JSONObject a2=(JSONObject)new JSONParser().parse(_suggesJson.toString());
+		_suggesJson.clear();
+		_suggesList.add(a2);
+		
+		_bnt.put("suggestions", _suggesList);
+		_bntList.add(_bnt);
+		_bntList.add(new JSONObject());
+		_bntList.add(new JSONObject());
+		_rcsData.put("buttons", _bntList);
 		
 		_reqJsonData.put("common", _commonData);
 		_reqJsonData.put("rcs", _rcsData);
@@ -147,7 +187,7 @@ public class RCSCellTmplSendTest extends SimpleHttpRequest{
 	 * @see com.java.http.SimpleHttpRequest#generateDummyJson(java.lang.String)
 	 */
 	@Override
-	public JSONObject generateDummyJson(String v1) {
+	public JSONObject generateDummyJson(String v1) throws ParseException {
 		JSONObject _reqJsonData=this.generateDummyJson();
 		JSONObject _commonData=(JSONObject)_reqJsonData.get("common");
 		_commonData.put("userContact", v1);	

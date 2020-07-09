@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Calendar;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -40,11 +41,6 @@ public class TalkCheckRsltList extends SimpleHttpRequest{
 	private URL url =null;
 	
 	public static void main(String[] args) {
-		if(args.length<1) {
-			System.out.println("Input UID!!");
-			System.exit(0);
-		}
-		
 		TalkCheckRsltList sender=new TalkCheckRsltList();
 		
 		try {
@@ -69,10 +65,11 @@ public class TalkCheckRsltList extends SimpleHttpRequest{
 			System.out.println("AccessToken:"+accessToken);
 			
 			//메시지 전송 결과 리스트 조회
-			String checkDate=SimpleHttpRequest.getNowDateTime("yyyy-MM-dd");
+			String checkSDate=SimpleHttpRequest.getNowDateTime("yyyy-MM-dd",Calendar.DATE,-20);
+			String checkEDate=SimpleHttpRequest.getNowDateTime("yyyy-MM-dd");
 			sender.url =new URL(sender.reqChkURL);
-			sender.reqBodyMap.put("start_date", checkDate);
-			sender.reqBodyMap.put("end_date", checkDate);
+			sender.reqBodyMap.put("start_date", checkSDate);
+			sender.reqBodyMap.put("end_date", checkEDate);
 			sender.reqBodyMap.put("status_code", "");
 			sender.reqBodyMap.put("etc1", "");
 			sender.reqBodyMap.put("etc2", "");
@@ -80,7 +77,7 @@ public class TalkCheckRsltList extends SimpleHttpRequest{
 			sender.reqBodyMap.put("tax_cd2", "");
 			sender.reqBodyMap.put("size", 0);
 			sender.reqBodyMap.put("last_uid", "");
-			sender.reqBodyMap.put("page", 0);
+			sender.reqBodyMap.put("page", 10);
 			String payload= sender.getSimpleJsonReqData(sender.reqBodyMap).toString();
 			
 			sender.reqHeaderMap.put("Content-Type", "application/json; utf-8");
