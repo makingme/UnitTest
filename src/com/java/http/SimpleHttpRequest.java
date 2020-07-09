@@ -220,6 +220,20 @@ public abstract class SimpleHttpRequest {
 		    ImageIO.write(bImage, "png", os);
 		    os.flush();
 		    writer.append(CRLF).flush();
+		    
+		    //List<File> fileList
+/*			for (File file : fileList) {
+				String fileName=file.getName();
+				String fileExt=file.getName().substring(file.getName().lastIndexOf(".")+1);
+				writer.append("--" + boundary).append(CRLF);
+				writer.append("Content-Disposition: form-data; name=\"file\"; filename=\""+fileName+"\"").append(CRLF);
+			    writer.append("Content-Type: image/"+fileExt).append(CRLF);
+			    writer.append(CRLF).flush();
+			    BufferedImage bImage = ImageIO.read(file);
+			    ImageIO.write(bImage, "png", os);
+			    os.flush();
+			    writer.append(CRLF).flush();
+			}*/
 			
 			writer.append("--" + boundary + "--").append(CRLF).flush();
 			boundary=null;
