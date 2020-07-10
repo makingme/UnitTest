@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
@@ -48,7 +50,7 @@ public class RCSFileSendTest extends SimpleHttpRequest{
 	
 	public static void main(String[] args) {
 		RCSFileSendTest sender=new RCSFileSendTest();
-		
+		List<File> fileList =new ArrayList<File>();
 		try {
 			if(args.length<1) {
 				System.out.println("Input Send File Name in images DIR");
@@ -62,7 +64,7 @@ public class RCSFileSendTest extends SimpleHttpRequest{
 				System.out.println("전송파일 없음으로 인한 강제 종료");
 				System.exit(0);
 			}
-			
+			fileList.add(uploadFile);
 			//토큰 요청
 			sender.url =new URL(sender.reqTokenURL);
 			
@@ -103,7 +105,7 @@ public class RCSFileSendTest extends SimpleHttpRequest{
 			sender.reqBodyMap.put("description", "test");
 			
 			
-			resposeData=sender.doRequestMulti(sender.url, sender.reqHeaderMap, sender.reqBodyMap, uploadFile, sender.os, sender.reader, "POST");
+			resposeData=sender.doRequestMulti(sender.url, sender.reqHeaderMap, sender.reqBodyMap, fileList, sender.os, sender.reader, "POST");
 			
 			
 		} catch (MalformedURLException e) {

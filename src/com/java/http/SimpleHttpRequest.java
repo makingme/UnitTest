@@ -64,7 +64,7 @@ public abstract class SimpleHttpRequest {
 	
 	private String boundary = null;
 	
-	
+	static String testURL="http://httpbin.org/post";
 	/**
 	
 	  * @Method Name : generateDummyJson
@@ -171,7 +171,7 @@ public abstract class SimpleHttpRequest {
 	}
 	
 	
-	public String doRequestMulti(URL url, Map<String, String> header , Map<String, Object> body, File uploadFile, OutputStream os, BufferedReader reader, String method) throws IOException{
+	public String doRequestMulti(URL url, Map<String, String> header , Map<String, Object> body, List<File> fileList, OutputStream os, BufferedReader reader, String method) throws IOException{
 		HttpURLConnection con =(HttpURLConnection) url.openConnection();
 		con.setConnectTimeout(5000);
 		con.setReadTimeout(5000);
@@ -189,7 +189,7 @@ public abstract class SimpleHttpRequest {
 		header.clear();
 		
 		con.setDoInput(true);
-		if( (body != null && body.size()>0) || (uploadFile !=null) ) {
+		if( (body != null && body.size()>0) || (fileList !=null && fileList.size()>0) ) {
 			con.setDoOutput(true);
 			boundary = getBoundary();
 			
@@ -210,30 +210,31 @@ public abstract class SimpleHttpRequest {
 			}
 			
 			//Send File
-			String fileName=uploadFile.getName();
-			String fileExt=uploadFile.getName().substring(uploadFile.getName().lastIndexOf(".")+1);
-			writer.append("--" + boundary).append(CRLF);
-			writer.append("Content-Disposition: form-data; name=\"file\"; filename=\""+fileName+"\"").append(CRLF);
-		    writer.append("Content-Type: image/"+fileExt).append(CRLF);
-		    writer.append(CRLF).flush();
-		    BufferedImage bImage = ImageIO.read(uploadFile);
-		    ImageIO.write(bImage, "png", os);
-		    os.flush();
-		    writer.append(CRLF).flush();
+//			String fileName=uploadFile.getName();
+//			String fileExt=uploadFile.getName().substring(uploadFile.getName().lastIndexOf(".")+1);
+//			writer.append("--" + boundary).append(CRLF);
+//			writer.append("Content-Disposition: form-data; name=\"file\"; filename=\""+fileName+"\"").append(CRLF);
+//		    writer.append("Content-Type: image/"+fileExt).append(CRLF);
+//		    writer.append(CRLF).flush();
+//		    BufferedImage bImage = ImageIO.read(uploadFile);
+//		    ImageIO.write(bImage, "png", os);
+//		    os.flush();
+//		    writer.append(CRLF).flush();
 		    
 		    //List<File> fileList
-/*			for (File file : fileList) {
+			for (File file : fileList) {
 				String fileName=file.getName();
 				String fileExt=file.getName().substring(file.getName().lastIndexOf(".")+1);
 				writer.append("--" + boundary).append(CRLF);
 				writer.append("Content-Disposition: form-data; name=\"file\"; filename=\""+fileName+"\"").append(CRLF);
 			    writer.append("Content-Type: image/"+fileExt).append(CRLF);
+			    writer.append("Content-Transfer-Encoding: binary").append(CRLF);
 			    writer.append(CRLF).flush();
 			    BufferedImage bImage = ImageIO.read(file);
-			    ImageIO.write(bImage, "png", os);
+			    ImageIO.write(bImage, fileExt, os);
 			    os.flush();
 			    writer.append(CRLF).flush();
-			}*/
+			}
 			
 			writer.append("--" + boundary + "--").append(CRLF).flush();
 			boundary=null;
