@@ -14,9 +14,13 @@ import sun.misc.*;
 public class Base64Ex {
 	public static void main(String[] args) throws IOException {
 		String auth="APITEST0000 APITEST0000";
+		String test="dddddd";
+		//java 8 Base64
 		String s_en=Base64.getEncoder().encodeToString(auth.getBytes());
 		//String s_en="QVBJVEVTVDAwMDA6QVBJVEVTVDAwMDA=";
 		//String s_en1=new BASE64Encoder().encode(auth.getBytes());
+		
+		//JAVA6 xml DatatypeConverter
 		String s_en2=DatatypeConverter.printBase64Binary(auth.getBytes());
 		System.out.println(s_en);
 		//System.out.println(s_en1);
@@ -27,6 +31,8 @@ public class Base64Ex {
 		//DatatypeConverter.parseBase64Binary(lexicalXSDBase64Binary)
 		String c_s=DatatypeConverter.printBase64Binary(auth.getBytes());
 		System.out.println(c_s);
+		
+		//java6 sun.misc BASE64Encoder
 		BASE64Encoder encoder =new BASE64Encoder();
 		
 		System.out.println(encoder.encode(auth.getBytes()));

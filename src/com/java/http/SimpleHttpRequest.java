@@ -9,9 +9,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,10 +26,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import javax.imageio.ImageIO;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+
+import sun.misc.BASE64Encoder;
 
 
 /**
@@ -423,6 +430,70 @@ public abstract class SimpleHttpRequest {
 			boundary=Long.toHexString(System.currentTimeMillis());
 		}
 		return boundary;
+	}
+	
+	public String generateJWTToken(String base64UrlEncodeHeader, String base64UrlEncodePayload, String alg, String secretkey, String charsetName){
+		String token=base64UrlEncodeHeader+"."+base64UrlEncodePayload;
+		String charSet=charsetName.equals("")?"UTF-8":charsetName;
+		String signature="";
+		byte[] hash;
+		try {
+			hash = secretkey.getBytes(charSet);
+	
+			// Mac since java 1.4 support HmacMD5, HmacSHA1, HmacSHA256
+			if(alg.equalsIgnoreCase("HMACMD5")||alg.equalsIgnoreCase("HMACSHA1")||alg.equalsIgnoreCase("HMACSHA256")) {
+				Mac sha256Hmac = Mac.getInstance(alg);
+				SecretKeySpec sKey = new SecretKeySpec(hash, alg);
+				sha256Hmac.init(sKey);
+				byte[] singedBytes=sha256Hmac.doFinal(token.getBytes(charSet));
+				signature=base64UrlEncode(singedBytes,charSet);
+			}
+			token+="."+signature;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		}
+		return token.replaceAll("=", "").replaceAll(System.lineSeparator(), "");
+	}
+	
+	public String base64Encode(byte[] text) {
+		BASE64Encoder encoder =new BASE64Encoder();
+		return encoder.encode(text);
+	}
+	
+	public String base64UrlEncode(String text, String charsetName) throws UnsupportedEncodingException {
+		BASE64Encoder encoder =new BASE64Encoder();
+		String charSet=charsetName.equals("")?"UTF-8":charsetName;
+		String encodedText=encoder.encode(text.getBytes(charSet));
+		byte[] encode=encodedText.getBytes(charSet);
+	    for (int i = 0; i < encode.length; i++) {
+	        if (encode[i] == '+') {
+	            encode[i] = '-';
+	        } else if (encode[i] == '/') {
+	            encode[i] = '_';
+	        } 
+	    }
+		
+		return new String(encode, charSet);
+	}
+	
+	public String base64UrlEncode(byte[] text, String charsetName) throws UnsupportedEncodingException {
+		BASE64Encoder encoder =new BASE64Encoder();
+		String charSet=charsetName.equals("")?"UTF-8":charsetName;
+		String encodedText=encoder.encode(text);
+		byte[] encode=encodedText.getBytes(charSet);
+	    for (int i = 0; i < encode.length; i++) {
+	        if (encode[i] == '+') {
+	            encode[i] = '-';
+	        } else if (encode[i] == '/') {
+	            encode[i] = '_';
+	        } 
+	    }
+		
+		return new String(encode, charSet);
 	}
 	public static void main(String[] args) {
 		SimpleHttpRequest ss= new TalkCheckRslt();
