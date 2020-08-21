@@ -54,7 +54,7 @@ public class SimpleGetTokenForTok {
 			//os.close();
 			reader= new BufferedReader(new InputStreamReader(con.getInputStream(),"utf-8"));
 		//	int code=con.getResponseCode();
-		/*	int code=con.getResponseCode();
+			int code=con.getResponseCode();
 			
 			System.out.println("code: "+code);
 			
@@ -65,7 +65,7 @@ public class SimpleGetTokenForTok {
 				lines.append(System.lineSeparator());
 			}
 			
-			System.out.println(lines.toString());*/
+			System.out.println(lines.toString());
 			
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

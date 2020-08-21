@@ -16,7 +16,11 @@ public class ForLoopExam {
 			} 
 		}
 		
-		
+		if(!(true||false||false)) {
+			System.out.println("true");
+		}else {
+			System.out.println("false");
+		}
 /*		for(int i=1;i<=10;i++) {
 			System.out.println(i);
 			if(i==5) {

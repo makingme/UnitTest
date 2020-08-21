@@ -8,9 +8,10 @@ public class StringLength {
 		// TODO Auto-generated constructor stub
 	}
 	public static void main(String[] args) {
-		String a="일이삼사오육칠팔구십";
+		String a="";
 		String b="1234567890";
 		String c="";
+		long al=(long) 10000000000000000000.0;
 		try {
 			System.out.println(a.getBytes("euc-kr").length);
 			System.out.println(b.getBytes("euc-kr").length);

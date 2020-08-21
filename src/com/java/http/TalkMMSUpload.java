@@ -34,7 +34,7 @@ import org.json.simple.parser.ParseException;
   */
 public class TalkMMSUpload extends SimpleHttpRequest{
 	private String reqTokenURL="http://13.209.176.120/v1/oauth/token";
-	private String reqSndURL=  "http://13.209.176.120/v1/message/wide/uploadImage";////message/uploadImage message/mms/uploadFiles /message/wide/uploadImage
+	private String reqSndURL=  "http://13.209.176.120/v1/message/mms/uploadFiles";////message/uploadImage message/mms/uploadFiles /message/wide/uploadImage
 	
 	private String authorization="APITEST0000 APITEST0000";
 	
@@ -43,6 +43,9 @@ public class TalkMMSUpload extends SimpleHttpRequest{
 	private URL url =null;
 	
 	public static void main(String[] args) {
+		System.setProperty("http.proxyHost", "127.0.0.1");
+		System.setProperty("http.proxyPort", "8888");
+		
 		TalkMMSUpload sender=new TalkMMSUpload();
 		List<File> fileList =new ArrayList<File>();
 		
@@ -91,6 +94,7 @@ public class TalkMMSUpload extends SimpleHttpRequest{
 			sender.reqHeaderMap.put("Content-Type", "multipart/form-data; boundary="+sender.getBoundary());
 			sender.reqHeaderMap.put("Accept", "*/*");
 			sender.reqHeaderMap.put("Authorization", "Bearer "+accessToken);
+			//sender.reqHeaderMap.put("Authorization", "Bearer accessToken");
 			sender.reqBodyMap.clear();
 			
 			resposeData=sender.doRequestMulti(sender.url, sender.reqHeaderMap, sender.reqBodyMap, fileList, sender.os, sender.reader, "POST");

@@ -13,6 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -233,7 +234,7 @@ public abstract class SimpleHttpRequest {
 				String fileName=file.getName();
 				String fileExt=file.getName().substring(file.getName().lastIndexOf(".")+1);
 				writer.append("--" + boundary).append(CRLF);
-				writer.append("Content-Disposition: form-data; name=\"file\"; filename=\""+fileName+"\"").append(CRLF);
+				writer.append("Content-Disposition: form-data; name=\"image\"; filename=\""+fileName+"\"").append(CRLF);
 			    writer.append("Content-Type: image/"+fileExt).append(CRLF);
 			    writer.append("Content-Transfer-Encoding: binary").append(CRLF);
 			    writer.append(CRLF).flush();
@@ -432,14 +433,14 @@ public abstract class SimpleHttpRequest {
 		return boundary;
 	}
 	
-	public String generateJWTToken(String base64UrlEncodeHeader, String base64UrlEncodePayload, String alg, String secretkey, String charsetName){
-		String token=base64UrlEncodeHeader+"."+base64UrlEncodePayload;
-		String charSet=charsetName.equals("")?"UTF-8":charsetName;
+	public String generateJWTToken(String header, String payload, String alg, String secretkey, String charsetName){
+		String charSet=charsetName.equals("")?Charset.defaultCharset().toString():charsetName;
+		String token="";
 		String signature="";
-		byte[] hash;
 		try {
-			hash = secretkey.getBytes(charSet);
-	
+			token=base64UrlEncode(header, charsetName)+"."+base64UrlEncode(payload, charsetName);
+			System.out.println("header+payload="+token);
+			byte[] hash = secretkey.getBytes(charSet);
 			// Mac since java 1.4 support HmacMD5, HmacSHA1, HmacSHA256
 			if(alg.equalsIgnoreCase("HMACMD5")||alg.equalsIgnoreCase("HMACSHA1")||alg.equalsIgnoreCase("HMACSHA256")) {
 				Mac sha256Hmac = Mac.getInstance(alg);
@@ -456,18 +457,30 @@ public abstract class SimpleHttpRequest {
 		} catch (InvalidKeyException e) {
 			e.printStackTrace();
 		}
-		return token.replaceAll("=", "").replaceAll(System.lineSeparator(), "");
+		return token.replaceAll("\r\n", "").replaceAll("\n", "");
 	}
 	
+	
 	public String base64Encode(byte[] text) {
+		return base64Encode(text, true);
+	}
+	
+	public String base64Encode(byte[] text, boolean withoutPadding) {
 		BASE64Encoder encoder =new BASE64Encoder();
-		return encoder.encode(text);
+		String encodedText=encoder.encode(text);
+		if(withoutPadding) {
+			encodedText=encodedText.replaceAll("=", "");
+		}
+		return encodedText.replaceAll(System.lineSeparator(), "");
 	}
 	
 	public String base64UrlEncode(String text, String charsetName) throws UnsupportedEncodingException {
-		BASE64Encoder encoder =new BASE64Encoder();
-		String charSet=charsetName.equals("")?"UTF-8":charsetName;
-		String encodedText=encoder.encode(text.getBytes(charSet));
+		return base64UrlEncode( text,  charsetName, true);
+	}
+	
+	public String base64UrlEncode(String text, String charsetName, boolean withoutPadding) throws UnsupportedEncodingException {
+		String charSet=charsetName.equals("")?Charset.defaultCharset().toString():charsetName;
+		String encodedText=base64Encode(text.getBytes(charSet), withoutPadding);
 		byte[] encode=encodedText.getBytes(charSet);
 	    for (int i = 0; i < encode.length; i++) {
 	        if (encode[i] == '+') {
@@ -481,9 +494,12 @@ public abstract class SimpleHttpRequest {
 	}
 	
 	public String base64UrlEncode(byte[] text, String charsetName) throws UnsupportedEncodingException {
-		BASE64Encoder encoder =new BASE64Encoder();
-		String charSet=charsetName.equals("")?"UTF-8":charsetName;
-		String encodedText=encoder.encode(text);
+		return base64UrlEncode(text, charsetName, true);
+	}
+	
+	public String base64UrlEncode(byte[] text, String charsetName, boolean withoutPadding) throws UnsupportedEncodingException {
+		String charSet=charsetName.equals("")?Charset.defaultCharset().toString():charsetName;
+		String encodedText=base64Encode(text, withoutPadding);
 		byte[] encode=encodedText.getBytes(charSet);
 	    for (int i = 0; i < encode.length; i++) {
 	        if (encode[i] == '+') {
@@ -495,6 +511,7 @@ public abstract class SimpleHttpRequest {
 		
 		return new String(encode, charSet);
 	}
+	
 	public static void main(String[] args) {
 		SimpleHttpRequest ss= new TalkCheckRslt();
 		System.out.println(ss.getNowDateTime("yyyy-MM-dd"));

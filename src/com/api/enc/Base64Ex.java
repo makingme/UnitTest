@@ -9,12 +9,22 @@ import java.util.Base64;
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
 
+import org.json.simple.JSONObject;
+
 import sun.misc.*;
 
 public class Base64Ex {
 	public static void main(String[] args) throws IOException {
 		String auth="APITEST0000 APITEST0000";
 		String test="dddddd";
+		JSONObject _reqJsonData=new JSONObject();
+		_reqJsonData.put("alg", "HS256");
+		
+		String s_entt=Base64.getEncoder().encodeToString(_reqJsonData.toString().getBytes("UTF-8"));
+		System.out.println(s_entt);
+		
+		String s_entt2=Base64.getEncoder().encodeToString(_reqJsonData.toString().getBytes("EUC-KR"));
+		System.out.println(s_entt2);
 		//java 8 Base64
 		String s_en=Base64.getEncoder().encodeToString(auth.getBytes());
 		//String s_en="QVBJVEVTVDAwMDA6QVBJVEVTVDAwMDA=";
@@ -36,6 +46,9 @@ public class Base64Ex {
 		BASE64Encoder encoder =new BASE64Encoder();
 		
 		System.out.println(encoder.encode(auth.getBytes()));
+		
+		System.out.println("@@!!"+encoder.encode(_reqJsonData.toString().getBytes("UTF-8")));
+		System.out.println("@@!!"+encoder.encode(_reqJsonData.toString().getBytes("EUC-KR")));
 		
 		
 		

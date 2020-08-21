@@ -23,12 +23,12 @@ import java.util.Date;
   */
 public class MSecToDate {
 	public static void main(String[] args) {
-		long t=1595642443;
-		long t2=System.currentTimeMillis();
-				
+		long t=1594968241+100000000;
+		long t2=(System.currentTimeMillis()/1000)+200000000;
+				System.out.println(t2);
 		Date date=new Date();
-		date.setTime(t2*2);
-		System.out.println(t2*2);
+		date.setTime(t2*1000);
+		//System.out.println(t2*2);
 		 SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
 		 String formattedDate = sdf.format(date);

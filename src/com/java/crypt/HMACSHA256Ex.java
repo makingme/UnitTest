@@ -35,7 +35,7 @@ public class HMACSHA256Ex {
 		Mac sha256Hmac = Mac.getInstance("HMACSHA256");//HmacSHA256 HMACSHA256
 		SecretKeySpec sKey = new SecretKeySpec(hash, "HMACSHA256");
 		sha256Hmac.init(sKey);
-		String data="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZ2VudDEiLCJhZ2VudElkIjoiYWdlbnQxIiwiaXNzIjoic21tcy5zaGluaGFuZHMuY29tIiwidHlwIjoiSldUIiwic0lwIjoiKi4qLiouKiIsImV4cCI6MTU5NTY0MjQ0MywiaWF0IjoxNTk0MTcxMjE0fQ";
+		String data="eyJhbGciOiJIUzI1NiJ9Cg.eyJpc3MiOiJzbW1zLnNoaW5oYW5kcy5jb20iLAoidHlwIjoiSldUIiwKInNJcCI6IiouKi4qLioiLAoiZXhwIjoiMTc5NjAxMzYxNSIsCiJhZ2VudElkIjoiYWdlbnQxIiwKInN1YiI6ImFnZW50MSIsCiJpYXQiOiIxNTk1OTkwNDg0In0K";
 		byte[] singedBytes=sha256Hmac.doFinal(data.getBytes("UTF-8"));
 		
 		BASE64Encoder encoder =new BASE64Encoder();
