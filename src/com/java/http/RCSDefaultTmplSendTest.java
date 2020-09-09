@@ -132,10 +132,10 @@ public class RCSDefaultTmplSendTest extends SimpleHttpRequest {
 		_rcsData.put("copyAllowed", false);
 		
 		//Body Data Setting
-		_bodyData.put("description", "["+dateTime+"], 프리 RCSTMPL 테스트");
+		_bodyData.put("description", "["+msgId+"], RCSTMPL");
 		
 		_rcsData.put("body", _bodyData);
-		_rcsData.put("buttons", _bntList);
+		//_rcsData.put("buttons", _bntList);
 		
 		_reqJsonData.put("common", _commonData);
 		_reqJsonData.put("rcs", _rcsData);
