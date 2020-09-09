@@ -31,11 +31,9 @@ import org.json.simple.parser.ParseException;
   */
 public class LGCTalkSendTest extends SimpleHttpRequest{
 
-	private String reqSndURL="https://devtalkapi.lgcns.com/friendTalk/request/kakao.json";
+	private String reqSndURL="https://devtalkapi.lgcns.com/friendTalk/request/kakao.json";//"http://ximpqa.lgcns.com:60000/friendTalk/request/kakao.json";
 	
 	private static String[] phones= {"01098468940","01083118940","01090488940","01026313590"};
-	
-	private String authorization="APITEST0000 APITEST0000";
 	
 	private OutputStream os=null;
 	private BufferedReader reader=null;
@@ -63,6 +61,8 @@ public class LGCTalkSendTest extends SimpleHttpRequest{
 			sender.url =new URL(sender.reqSndURL);
 			String payload= (rcvNum==null)?sender.generateDummyJson().toString():sender.generateDummyJson(rcvNum).toString();
 			
+			sender.reqHeaderMap.put("authToken", "Izt6Qm1LONIfKs9znfpIig==");
+			sender.reqHeaderMap.put("serverName", "Citimobile01");
 			sender.reqHeaderMap.put("Content-Type", "application/json; utf-8");
 			sender.reqHeaderMap.put("Content-Length", ""+payload.getBytes().length);
 			sender.reqHeaderMap.put("Accept", "*/*");
@@ -87,31 +87,9 @@ public class LGCTalkSendTest extends SimpleHttpRequest{
 		JSONObject _image=new JSONObject();
 		JSONArray _bntList=new JSONArray();
 		String dateTime=getNowDateTime();
-		_reqJsonData.put("message_type", "AT");
-		_reqJsonData.put("sender_key", "81ef72d77c4c6c66962b79239f02a58a1202f924");
-		_reqJsonData.put("phone_number", "01026313590");
-		_reqJsonData.put("user_key", "");
-		_reqJsonData.put("template_code", "test_kep_template_001");
-		_reqJsonData.put("message", "[카엔] 회원가입 안내\r\n어다인님, 카엔 회원이 되신 것을 환영합니다.\r\n\r\n▶신규 가입 회원 혜택\r\n1개월 무료 스트리밍 서비스 제공\r\n카카오톡 이모티콘 증정");//1000 byte
-		_reqJsonData.put("sms_message", "");//2000 byte
-		_reqJsonData.put("title", dateTime);
-		_reqJsonData.put("ad_flag", "Y");
-		_reqJsonData.put("wide", "N");
-		_reqJsonData.put("sms_type", "SM");
-		_reqJsonData.put("sender_no", "15776825");
-//		_reqJsonData.put("etc1", "어다인");
-//		_reqJsonData.put("etc2", "1개월 무료");
-//		_reqJsonData.put("etc3", "이모티콘 할인권 증정");
-//		for(int i=4;i<=10;i++) {
-//			_reqJsonData.put("etc"+i, "");
-//		}
-		_reqJsonData.put("tax_cd1", "");
-		_reqJsonData.put("cid", dateTime.replaceAll("\\D", ""));
-		_reqJsonData.put("tax_cd2", "");
-		_reqJsonData.put("reservation_date", "");
-		_reqJsonData.put("button", _bntList);
-		/*_reqJsonData.put("image", _image);*/
-		_reqJsonData.put("content_group_id", "");
+		_reqJsonData.put("service", "2020048094");
+		_reqJsonData.put("message", "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+		_reqJsonData.put("mobile", "01026313590");
 		
 		return _reqJsonData;
 	}
