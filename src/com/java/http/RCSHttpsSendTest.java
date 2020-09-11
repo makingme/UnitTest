@@ -16,11 +16,11 @@ import org.json.simple.parser.ParseException;
 
 /**
 
-  * @FileName : RCSLMSSendTest.java
+  * @FileName : RCSHTTPSSENDTEST.java
 
   * @Project : UnitTest
 
-  * @Date : 2020. 6. 23. 
+  * @Date : 2020. 9. 11. 
 
   * @작성자 : kibumkim
 
@@ -29,13 +29,14 @@ import org.json.simple.parser.ParseException;
   * @프로그램 설명 :
 
   */
-public class RCSLMSSendTest extends SimpleHttpRequest{
-//14.63.249.116:443
-	//private String reqTokenURL="https://agency-stg.hermes.kt.com/corp/v1/token";
-	//private String reqSndURL="https://agency-stg.hermes.kt.com/corp/v1/message";
-	
-	private String reqTokenURL="https://14.63.249.116:443/corp/v1/token";
-	private String reqSndURL="https://14.63.249.116:443/corp/v1/message";
+public class RCSHttpsSendTest extends SimpleHttpsRequest{
+
+	//14.63.249.116:443
+		//private String reqTokenURL="https://agency-stg.hermes.kt.com/corp/v1/token";
+		//private String reqSndURL="https://agency-stg.hermes.kt.com/corp/v1/message";
+		
+		private String reqTokenURL="https://14.63.249.116:443/corp/v1/token";
+		private String reqSndURL="https://14.63.249.116:443/corp/v1/message";;
 	
 	private static String[] phones= {"01098468940","01083118940","01090488940","01026313590"};
 	
@@ -44,7 +45,7 @@ public class RCSLMSSendTest extends SimpleHttpRequest{
 	private URL url =null;
 	
 	public static void main(String[] args) {
-		RCSLMSSendTest sender=new RCSLMSSendTest();
+		RCSHttpsSendTest sender=new RCSHttpsSendTest();
 		boolean isValid =true;
 		String rcvNum=null;
 		if(args.length>0) {
@@ -127,7 +128,7 @@ public class RCSLMSSendTest extends SimpleHttpRequest{
 		_commonData.put("msgId", msgId);
 		_commonData.put("userContact", "01098468940");//KT:01098468940 LG:01083118940 SKT:01090488940
 		_commonData.put("scheduleType", "0");
-		_commonData.put("msgGroupId", "");
+		_commonData.put("msgGroupId", msgId);
 		_commonData.put("msgServiceType", "rcs");
 		
 		//rcs Data Setting
@@ -135,7 +136,7 @@ public class RCSLMSSendTest extends SimpleHttpRequest{
 		_rcsData.put("agencyId", "ktrcsdev");//ktrcsdev, ktbizrcs
 		_rcsData.put("messagebaseId", "SL000000");
 		_rcsData.put("serviceType", "RCSLMS");
-		_rcsData.put("expiryOption", 2);
+		_rcsData.put("expiryOption", 1);
 		_rcsData.put("header", "0");
 		_rcsData.put("footer", "");
 		_rcsData.put("copyAllowed", false);
@@ -198,4 +199,5 @@ public class RCSLMSSendTest extends SimpleHttpRequest{
 		
 		return _reqJsonData;
 	}	
+
 }

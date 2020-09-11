@@ -132,7 +132,9 @@ public abstract class SimpleHttpsRequest {
 		};
 		try {
 		      SSLContext sc = SSLContext.getInstance("SSL");
-		      sc.init(null, trustAllCerts, new SecureRandom());
+		      //sc.init(null, trustAllCerts, new SecureRandom()); 발송불가
+		      //sc.init(null, trustAllCerts, null); 발송가능
+		      sc.init(null, null, null);//발송가능
 		      HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 		      HttpsURLConnection.setDefaultHostnameVerifier(hv);
 		    } catch (Exception e) {}

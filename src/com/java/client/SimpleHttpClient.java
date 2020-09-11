@@ -15,7 +15,7 @@ import com.java.http.SimpleHttpRequest;
 public class SimpleHttpClient {
 	
 	class Worker  extends SimpleHttpRequest implements Runnable{
-		private String reqURL="http://localhost:443/msgstatus";
+		private String reqURL="http://localhost:8443/msgstatus";
 		private OutputStream os=null;
 		private BufferedReader reader=null;
 		private URL url =null;

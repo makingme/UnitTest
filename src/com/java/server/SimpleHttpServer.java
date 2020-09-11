@@ -30,7 +30,7 @@ import freemarker.template.TemplateException;
 
 public class SimpleHttpServer {
 	public static void main(String[] args) throws Exception {
-		HttpServer server=HttpServer.create(new InetSocketAddress(443), 0);
+		HttpServer server=HttpServer.create(new InetSocketAddress(8443), 0);
 		server.createContext("/msgstatus", new SimpleHandler("test"));
 		//server.createContext("/msgstatus", new SimpleHandler());
 		server.setExecutor(new ThreadPoolExecutor(5, 8, 30, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(100)));
@@ -72,7 +72,7 @@ public class SimpleHttpServer {
             String requestBody= new String(bodybytes,0,tot);
             //System.out.println("reqBody["+requestBody+"]");
             OutputStream os = t.getResponseBody();
-            os.write(response.getBytes());
+           // os.write(response.getBytes());
             os.close();
             //System.out.println("response done.");
             System.out.println(System.currentTimeMillis());

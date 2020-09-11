@@ -93,7 +93,7 @@ public class SimpleHttpServer {
         
         @Override
         public void handle(HttpExchange t) throws IOException {
-        	System.out.println("Handler Called");
+        	System.out.println(getNowDateTime()+"Handler Called");
             String response = "OK";
             t.sendResponseHeaders(200, response.getBytes().length);
             
@@ -106,6 +106,8 @@ public class SimpleHttpServer {
             while( (rbytes=in.read(bodybytes, tot, 1) ) >0 ) {
             	tot+=rbytes ;           	
             }
+            in.close();
+            System.out.println("Input Data Rcv Finished");
             ByteSequence inputdata = new ByteSequence(bodybytes,0,tot);
             ByteSequence ackdata = new ByteSequence(dataRslt,0,dataRslt.length);
             ctxRuntime.getMapStack().clear() ;
@@ -117,18 +119,19 @@ public class SimpleHttpServer {
             
             Writer wout = Logger.getRootLogger() != null && Logger.getRootLogger().getLevel().equals(Level.DEBUG) ? sysOut : nullOut ;
             try {
+            	System.out.println("template Called");
 				tmplAgent.process(mapRootModel,  wout);
 			} catch (TemplateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             
-            in.close();
+            
             System.out.println("["+getNowDateTime()+"]");
             String requestBody= new String(bodybytes,0,tot);
             System.out.println("reqBody["+requestBody+"]");
             OutputStream os = t.getResponseBody();
-            os.write(response.getBytes());
+           // os.write(response.getBytes());
             os.close();
             System.out.println("response done.");
             System.out.println("========================");
