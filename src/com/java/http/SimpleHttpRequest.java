@@ -134,7 +134,7 @@ public abstract class SimpleHttpRequest {
 	public String doRequest(URL url, Map<String, String> header ,String reqData, OutputStream os, BufferedReader reader, String method) throws IOException{
 		HttpURLConnection con =(HttpURLConnection) url.openConnection();
 		con.setConnectTimeout(5000);
-		con.setReadTimeout(5000);
+		con.setReadTimeout(2000);
 		con.setRequestMethod(method.toUpperCase());
 		
 		Iterator<String> keyItor= header.keySet().iterator();
@@ -143,7 +143,7 @@ public abstract class SimpleHttpRequest {
 			String key=keyItor.next();
 			String value=header.get(key);
 			con.setRequestProperty(key, value);
-			System.out.println(i+"th Request Setting["+key+": "+value+"]");
+			//System.out.println(i+"th Request Setting["+key+": "+value+"]");
 			i++;
 		}
 		header.clear();
@@ -151,7 +151,7 @@ public abstract class SimpleHttpRequest {
 		con.setDoInput(true);
 		if( reqData!=null && reqData.length()>0) {
 			con.setDoOutput(true);
-			System.out.println("Request Body Data="+ reqData);
+			//System.out.println("Request Body Data="+ reqData);
 			
 			os =con.getOutputStream();
 			byte[] payload = reqData.getBytes("utf-8");
@@ -160,7 +160,7 @@ public abstract class SimpleHttpRequest {
 		}
 		
 		int code=con.getResponseCode();
-		System.out.println("Response code: "+code);
+		//System.out.println("Response code: "+code);
 		
 		String line=null;
 		StringBuffer lines=new StringBuffer();
@@ -174,7 +174,7 @@ public abstract class SimpleHttpRequest {
 		reader.close();
 		con.disconnect();
 		
-		System.out.println("["+SimpleHttpRequest.getNowDateTime()+"]Response Data="+lines.toString());
+		//System.out.println("["+SimpleHttpRequest.getNowDateTime()+"]Response Data="+lines.toString());
 		return lines.toString();
 	}
 	

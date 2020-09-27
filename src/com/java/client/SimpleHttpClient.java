@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,7 +16,7 @@ import com.java.http.SimpleHttpRequest;
 public class SimpleHttpClient {
 	
 	class Worker  extends SimpleHttpRequest implements Runnable{
-		private String reqURL="http://localhost:8443/msgstatus";
+		private String reqURL="http://15.165.55.184:8443/msgstatus";//http://15.165.55.184:24149/xweb/test.fsp http://localhost:8443/msgstatus 15.165.55.184
 		private OutputStream os=null;
 		private BufferedReader reader=null;
 		private URL url =null;
@@ -31,15 +32,20 @@ public class SimpleHttpClient {
 		@Override
 		public void run() {
 			startTime=System.currentTimeMillis();
+			String payload="";
+			try {
+				payload = this.dummyJsonArray().toString();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			while(true) {
-				if((System.currentTimeMillis()-startTime) >24*60*60*1000) {
+				if(cnt==100) {
 					break;
 				}
 				try {
 					this.url =new URL(this.reqURL);
-				
-					String payload=this.generateDummyJson().toString();
-					
+
 					this.reqHeaderMap.put("Content-Type", "application/json; utf-8");
 					this.reqHeaderMap.put("Content-Length", ""+payload.getBytes().length);
 					this.reqHeaderMap.put("Accept", "application/json");
@@ -49,16 +55,13 @@ public class SimpleHttpClient {
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
+				}  catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
 			}
-			System.out.println(tName+"["+cnt+"], ["+System.currentTimeMillis()+"], "+(System.currentTimeMillis()-startTime));
+			System.out.println(tName+"소요시간:["+(System.currentTimeMillis()-startTime)+"], 처리건수:["+cnt+"]");
 		}
 
 		@Override
@@ -102,17 +105,73 @@ public class SimpleHttpClient {
 			return _reqJsonData;
 		}
 
-		@Override
+		public  JSONArray dummyJsonArray() throws ParseException{
+			// TODO Auto-generated method stub
+			JSONArray _listJson=new JSONArray();
+			JSONObject _reqJsonData=new JSONObject();
+			JSONObject errorData=new JSONObject();
+			
+
+			String dateTime=getNowDateTime("yyyy-MM-dd'T'HH:mm:ss.SSS");
+			
+			// common Data Setting
+			String msgId=dateTime.replaceAll("\\D", "");
+			_reqJsonData.put("status", "fail");
+			_reqJsonData.put("msgId", "DBX_TEST."+msgId);
+			_reqJsonData.put("serviceType", "RCSSMS");
+			_reqJsonData.put("timestamp", dateTime);
+			_reqJsonData.put("rcsId", "KT_ODINUE");
+			_reqJsonData.put("userContact", "01098468940");
+			_reqJsonData.put("mnoInfo", "KT");
+			_reqJsonData.put("sentTime", dateTime);
+			
+			errorData.put("code", "71010");
+			errorData.put("message", "MAAP-FE API Error\"");
+			
+			_reqJsonData.put("error", errorData);
+			for(int i=0; i<100; i++) {
+				_listJson.add(_reqJsonData);
+			}
+			
+			return _listJson;
+		}
 		public JSONObject generateDummyJson(String v1) throws ParseException {
 			// TODO Auto-generated method stub
-			return null;
+			JSONArray _listJson=new JSONArray();
+			JSONObject _reqJsonData=new JSONObject();
+			JSONObject errorData=new JSONObject();
+			
+
+			String dateTime=getNowDateTime("yyyy-MM-dd'T'HH:mm:ss.SSS");
+			
+			// common Data Setting
+			String msgId=dateTime.replaceAll("\\D", "");
+			_reqJsonData.put("status", "fail");
+			_reqJsonData.put("msgId", "DBX_TEST."+msgId);
+			_reqJsonData.put("serviceType", "RCSSMS");
+			_reqJsonData.put("timestamp", dateTime);
+			_reqJsonData.put("rcsId", "KT_ODINUE");
+			_reqJsonData.put("userContact", "01098468940");
+			_reqJsonData.put("mnoInfo", "KT");
+			_reqJsonData.put("sentTime", dateTime);
+			
+			errorData.put("code", "71010");
+			errorData.put("message", "MAAP-FE API Error\"");
+			
+			_reqJsonData.put("error", errorData);
+			_listJson.add(_reqJsonData);
+
+			return _reqJsonData;
 		}
 		
 	}
 	
 	public static void main(String[] args) {
+		int count=90;
+		if(args.length >0)
+			count=Integer.valueOf(args[0]);
 		SimpleHttpClient sc=new SimpleHttpClient();
-		for(int i=0;i<5;i++) {
+		for(int i=0;i<count;i++) {
 			Worker a=sc.new Worker(""+i+":Thead");
 			Thread t=new Thread(a);
 			t.start();

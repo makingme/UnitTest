@@ -31,11 +31,11 @@ import org.json.simple.parser.ParseException;
   */
 public class RCSLMSSendTest extends SimpleHttpRequest{
 //14.63.249.116:443
-	//private String reqTokenURL="https://agency-stg.hermes.kt.com/corp/v1/token";
-	//private String reqSndURL="https://agency-stg.hermes.kt.com/corp/v1/message";
+	private String reqTokenURL="https://agency-stg.hermes.kt.com/corp/v1/token";
+	private String reqSndURL="https://agency-stg.hermes.kt.com/corp/v1/message";
 	
-	private String reqTokenURL="https://14.63.249.116:443/corp/v1/token";
-	private String reqSndURL="https://14.63.249.116:443/corp/v1/message";
+	//private String reqTokenURL="https://14.63.249.116:443/corp/v1/token";
+	//private String reqSndURL="https://14.63.249.116:443/corp/v1/message";
 	
 	private static String[] phones= {"01098468940","01083118940","01090488940","01026313590"};
 	
@@ -124,7 +124,7 @@ public class RCSLMSSendTest extends SimpleHttpRequest{
 		
 		// common Data Setting
 		String msgId=dateTime.replaceAll("\\D", "");
-		_commonData.put("msgId", msgId);
+		_commonData.put("msgId", "DBX_SMS."+msgId);
 		_commonData.put("userContact", "01098468940");//KT:01098468940 LG:01083118940 SKT:01090488940
 		_commonData.put("scheduleType", "0");
 		_commonData.put("msgGroupId", "");
