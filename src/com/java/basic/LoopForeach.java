@@ -25,10 +25,12 @@ public class LoopForeach {
 	public static void main(String[] args) {
 		List<String> list=new ArrayList<String>();
 		list=null;
-		for (String string : list) {
+/*		for (String string : list) {
 			System.out.println(string);
-		}
+		}*/
 		
 		System.out.println("---");
+		System.out.println((byte)0x20);
+		
 	}
 }

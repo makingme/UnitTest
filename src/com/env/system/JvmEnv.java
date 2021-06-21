@@ -23,6 +23,8 @@ public class JvmEnv {
 		System.out.println();
 		System.out.println(System.getenv("qqqqqqqq"));
 		System.out.println(System.getenv("pppppppp"));
+		System.out.println(System.getProperty("java.class.path"));
+		System.out.println( System.getenv("CLASSPATH"));
 	}
 
 }

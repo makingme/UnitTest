@@ -22,12 +22,25 @@ public class SimpleHttpClient {
 		private URL url =null;
 		private long startTime =0;
 		private long cnt =0;
+		private long sleepTime =0;
+		private int dummyCnt =5;
 		private String tName="";
 		
 		public Worker(String name) {
 			tName=name;
 		}
-
+		
+		public Worker(String name, long sleepTime) {
+			tName=name;
+			this.sleepTime=sleepTime;
+		}
+		
+		public Worker(String name, long sleepTime, int dummyCnt) {
+			tName=name;
+			this.sleepTime=sleepTime;
+			this.dummyCnt =dummyCnt;
+		}
+		
 		
 		@Override
 		public void run() {
@@ -40,7 +53,7 @@ public class SimpleHttpClient {
 				e1.printStackTrace();
 			}
 			while(true) {
-				if(cnt==100) {
+				if(cnt==1000) {
 					break;
 				}
 				try {
@@ -52,10 +65,14 @@ public class SimpleHttpClient {
 					
 					String resposeData=this.doRequest(this.url, this.reqHeaderMap, payload, os, reader, "POST");
 					cnt++;
+					Thread.currentThread().sleep(sleepTime);
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}  catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -129,7 +146,7 @@ public class SimpleHttpClient {
 			errorData.put("message", "MAAP-FE API Error\"");
 			
 			_reqJsonData.put("error", errorData);
-			for(int i=0; i<100; i++) {
+			for(int i=0; i<dummyCnt; i++) {
 				_listJson.add(_reqJsonData);
 			}
 			
@@ -167,12 +184,19 @@ public class SimpleHttpClient {
 	}
 	
 	public static void main(String[] args) {
-		int count=90;
+		int count=50;
+		long sleepTime=0;
+		int dummyCnt=100;
 		if(args.length >0)
 			count=Integer.valueOf(args[0]);
+		if(args.length >1)
+			sleepTime=Long.valueOf(args[1]);
+		if(args.length >2)
+			dummyCnt=Integer.valueOf(args[2]);
+		System.out.println("Thread Cnt ["+count+", DummyData Cnt ["+dummyCnt+"], Request Interval ["+sleepTime+"]");
 		SimpleHttpClient sc=new SimpleHttpClient();
 		for(int i=0;i<count;i++) {
-			Worker a=sc.new Worker(""+i+":Thead");
+			Worker a=sc.new Worker(""+i+":Thead", sleepTime, dummyCnt);
 			Thread t=new Thread(a);
 			t.start();
 		}
